@@ -3,10 +3,6 @@ const router = express.Router();
 const { v4: uuidv4 } = require("uuid");
 const User = require("../../models/User");
 
-router.get("/", (req, res) => {
-  res.send("we are on users");
-});
-
 router.post("/create", async (req, res) => {
   const newId = uuidv4();
   const newUser = new User({
@@ -23,8 +19,38 @@ router.post("/create", async (req, res) => {
       message: err,
     });
   }
-
-  console.log(req.body);
+});
+//Get one user
+router.get("/:email", async (req, res) => {
+  await User.findOne({ email: `${req.params.email}` })
+    .then((result, err) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      res.json({ message: err });
+    });
+});
+//Get all users
+router.get("/", async (req, res) => {
+  const limit = req.body.page || 5;
+  try {
+    const users = await User.find().limit(limit);
+    res.json(users);
+  } catch (err) {
+    res.json({
+      message: err,
+    });
+  }
+});
+//Delete user
+router.delete("/:email", async (req, res) => {
+  await User.remove({ email: `${req.params.email}` })
+    .then((result, err) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      res.json({ message: err });
+    });
 });
 
 module.exports = router;
