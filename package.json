@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.1",
+    "ejs": "^3.1.8",
+    "env": "^0.0.2",
+    "express": "^4.18.1",
+    "mongoose": "^6.3.3",
+    "uuid": "^8.3.2"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "name": "system_and_api_design",
+  "description": "Using Node and Express, your task is to build a currency conversion service that includes FIAT and cryptocurrencies.",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
