@@ -94,4 +94,17 @@ function deleteUser(req, res, next) {
   });
 }
 
+router.put("/:id", async (req, res) => {
+  const filter = { name: "Jean-Luc Picard" };
+  const update = { age: 59 };
+
+  // `doc` is the document _before_ `update` was applied
+  let doc = await Character.findOneAndUpdate(filter, update, { new: true });
+  doc.name; // 'Jean-Luc Picard'
+  doc.age; // undefined
+
+  doc = await Character.findOne(filter);
+  doc.age; // 59
+});
+
 module.exports = router;
