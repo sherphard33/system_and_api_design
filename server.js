@@ -1,27 +1,20 @@
+//require("rootpath")();
 const express = require("express");
-const server = express();
-const mgDb = require("mongoose");
-const bdParser = require("body-parser");
-require("dotenv").config();
-const PORT = process.env.SERVER_PORT || 3000;
+const bodyParser = require("body-parser");
+const usersRouter = require("./routes/users/users");
+const basicAuth = require("./routes/auth/auth");
+const app = express();
+const PORT = 3001;
 
-//Import Routes
-const usersRoute = require("./routes/users/users");
-const convRoute = require("./routes/conversion/conversion");
-const authRoute = require("./routes/auth/auth");
-server.use(bdParser.json());
-server.use("/users", usersRoute);
-server.use("/conv", convRoute);
-server.use("/auth", authRoute);
-// View engine setup
-server.set("view engine", "ejs");
-mgDb.connect(process.env.MONGOURL, { useNewUrlParser: true }, () => {
-  console.log("Connected to DB");
-});
-server.get("/", (req, res) => {
-  res.render("home");
-});
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-server.listen(PORT, () => {
+// use basic HTTP auth to secure the api
+app.use(basicAuth);
+
+// api routes
+app.use("/users", usersRouter);
+
+app.listen(PORT, () => {
   console.log(`server is running on port ${PORT}`);
 });
